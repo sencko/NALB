@@ -10,6 +10,7 @@
 
 package org.sencko.nalb.parser;
 
+import java.util.Formatter;
 import java.util.regex.Matcher;
 
 public class PlayerStats {
@@ -84,8 +85,8 @@ public class PlayerStats {
 
   static String FORMAT = Util.readResource("player.html");
 
-  public String toHTML() {
-    return String.format(FORMAT, (starting ? "class=\"starter\"" : "class=\"sub\""), number, getName(), playTime / 60, playTime % 60, twoPoints.made,
+  public void toHTML(Formatter formatter) {
+    formatter.format(FORMAT, (starting ? "class=\"starter\"" : "class=\"sub\""), number, getName(), playTime / 60, playTime % 60, twoPoints.made,
         twoPoints.attempted, twoPoints.getPercentage(), threePoints.made, threePoints.attempted, threePoints.getPercentage(), freeThrow.made,
         freeThrow.attempted, freeThrow.getPercentage(), offensiveRebounds, defensiveRebounds, offensiveRebounds + defensiveRebounds, assists,
         turnovers, steals, blocks, blocksAgainst, fouls, foulsAgainst, getPoints(), getEfficiency()

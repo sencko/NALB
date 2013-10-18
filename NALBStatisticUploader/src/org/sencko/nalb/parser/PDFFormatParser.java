@@ -14,6 +14,9 @@ import java.io.File;
 import java.io.FileInputStream;
 import java.io.FileOutputStream;
 import java.io.FilenameFilter;
+import java.util.Formatter;
+
+import org.apache.pdfbox.util.PDFTextStripper;
 
 public class PDFFormatParser {
   public static void main(String[] args) throws Exception {// PDFText2HTML
@@ -38,15 +41,18 @@ public class PDFFormatParser {
         return name.endsWith(".pdf");
       }
     });
+    PDFTextStripper stripper = new PDFTextStripper();
+    stripper.setSortByPosition(true);
+    OptimizedCharArrayWriter ocaw = new OptimizedCharArrayWriter();
     new File("results").mkdirs();
     for (File file : files) {
       try {
         System.out.println(file.getAbsolutePath());
         FileInputStream fis = new FileInputStream(file);
-        Game game = new Game(fis);
-        FileOutputStream fos = new FileOutputStream("results/" + game.homeTeam + "-" + game.awayTeam + game.gameNo + ".html");
-        fos.write(game.toHtml().getBytes("UTF-8"));
-        fos.close();
+        Game game = new Game(fis, ocaw, stripper);
+        Formatter formatter = new Formatter("results/" + game.homeTeam + "-" + game.awayTeam + game.gameNo + ".html", "UTF-8");
+        game.toHtml(formatter);
+        formatter.close();
       } catch (Exception ex) {
 
         ex.printStackTrace();

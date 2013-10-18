@@ -10,6 +10,7 @@
 
 package org.sencko.nalb.parser;
 
+import java.util.Formatter;
 import java.util.regex.Matcher;
 
 public class TeamTotals extends PlayerStats {
@@ -29,9 +30,9 @@ public class TeamTotals extends PlayerStats {
   }
 
   static String TOTALS_FORMAT = Util.readResource("totals.html");
-
-  public String toHTML() {
-    return String.format(TOTALS_FORMAT, name,  offensiveRebounds, defensiveRebounds, offensiveRebounds
+  
+  public void toHTML(Formatter formatter) {
+    formatter.format(TOTALS_FORMAT, name,  offensiveRebounds, defensiveRebounds, offensiveRebounds
         + defensiveRebounds,  turnovers, fouls);
   }
 }

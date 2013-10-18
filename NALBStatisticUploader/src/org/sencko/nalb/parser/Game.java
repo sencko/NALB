@@ -18,6 +18,7 @@ import java.io.InputStream;
 import java.text.SimpleDateFormat;
 import java.util.ArrayList;
 import java.util.Calendar;
+import java.util.Formatter;
 import java.util.List;
 import java.util.Locale;
 import java.util.TimeZone;
@@ -55,14 +56,15 @@ public class Game {
   transient String rowCache = null;
   transient Matcher currentMatcher = null;
 
-  public Game( InputStream stream) throws Exception {
+  public Game( InputStream stream,OptimizedCharArrayWriter writer,PDFTextStripper stripper) throws Exception {
     PDDocument document = PDDocument.load(stream);
-    PDFTextStripper stripper = new PDFTextStripper();
-    stripper.setSortByPosition(true);
-    CharArrayWriter writer = new CharArrayWriter(5000);
+
+    
+    writer.reset();
+
     stripper.writeText(document, writer);
 
-    reader = new BufferedReader(new CharArrayReader(writer.toCharArray()));
+    reader = new BufferedReader(new CharArrayReader(writer.getBuffer(),0,writer.size()));
     try {
       extractTeamNames();
       extractGameNumber();
@@ -156,8 +158,8 @@ public class Game {
   }
 
 
-  public String toHtml() {
-    return String.format(FORMAT, getHomeTeam(), getAwayTeam(), getHomeTeam(), getAwayTeam(), getScoreByPeriods(), getHomeTeam(),
+  public void toHtml(Formatter formatter) {
+    formatter.format(FORMAT, getHomeTeam(), getAwayTeam(), getHomeTeam(), getAwayTeam(), getScoreByPeriods(), getHomeTeam(),
         getPlayersToHtml(playersStatsHome.subList(0, playersStatsHome.size() - 2)),
         getPlayersToHtml(playersStatsHome.subList(playersStatsHome.size() - 2, playersStatsHome.size())), getAwayTeam(),
         getPlayersToHtml(playersStatsAway.subList(0, playersStatsAway.size() - 2)),
@@ -199,8 +201,9 @@ public class Game {
 
   private String getPlayersToHtml(List<PlayerStats> playersStatsHome2) {
     StringBuilder builder = new StringBuilder();
+    Formatter formatter = new Formatter(builder);
     for (PlayerStats ps : playersStatsHome2) {
-      builder.append(ps.toHTML()).append("\n");
+      ps.toHTML(formatter);
     }
     return builder.toString();
   }

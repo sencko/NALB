@@ -1,0 +1,17 @@
+eclipse.preferences.version=1
+encoding//src/org/sencko/nalb/parser/properties/BLS.properties=UTF-8
+encoding//src/org/sencko/nalb/parser/properties/BULS.properties=UTF-8
+encoding//src/org/sencko/nalb/parser/properties/CRAZY.properties=UTF-8
+encoding//src/org/sencko/nalb/parser/properties/DAR.properties=UTF-8
+encoding//src/org/sencko/nalb/parser/properties/HEL.properties=UTF-8
+encoding//src/org/sencko/nalb/parser/properties/LAV.properties=UTF-8
+encoding//src/org/sencko/nalb/parser/properties/LNX.properties=UTF-8
+encoding//src/org/sencko/nalb/parser/properties/LOKO.properties=UTF-8
+encoding//src/org/sencko/nalb/parser/properties/OLD.properties=UTF-8
+encoding//src/org/sencko/nalb/parser/properties/PAL.properties=UTF-8
+encoding//src/org/sencko/nalb/parser/properties/PEIPAR.properties=UTF-8
+encoding//src/org/sencko/nalb/parser/properties/ZEL.properties=UTF-8
+encoding//src/org/sencko/nalb/parser/properties/aliases.properties=UTF-8
+encoding//src/org/sencko/nalb/parser/properties/trans.properties=UTF-8
+encoding//src/org/sencko/nalb/parser/resources/game.html=UTF-8
+encoding/<project>=UTF-8

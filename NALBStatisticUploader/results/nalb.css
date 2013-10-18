@@ -47,6 +47,7 @@ tfoot {
 
 th {
 	background-color: #C2B3B3;
+	width: 30px;
 }
 
 tr:hover {

@@ -173,7 +173,7 @@ public class Game {
     sb.append("<table border=\"1\" ><thead>");
     sb.append("<tr><th>Отбор</th>");
     for (int i = 0; i < scoring5minHome.size(); i++) {
-      sb.append("<th  style=\"width: 30px;\">").append((i + 1) * 5 + "'").append("</th>");
+      sb.append("<th>").append((i + 1) * 5 + "'").append("</th>");
     }
     sb.append("<th>Общо</th>");
     sb.append("</tr></thead><tbody>");

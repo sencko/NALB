@@ -1,5 +1,5 @@
 .starter {
-	background-color: yellow;
+	background-color: #e4e4e4;
 }
 
 .name {
@@ -8,6 +8,11 @@
 	padding: 0cm 3.5pt 0cm 3.5pt;
 	white-space: nowrap;
 	width: 400px;
+}
+
+.total, .team {
+	font-weight: bold;
+	text-align: center;	
 }
 
 body {
@@ -46,8 +51,9 @@ tfoot {
 }
 
 th {
-	background-color: #C2B3B3;
+/* 	background-color: #C2B3B3; */
 	width: 30px;
+	white-space: nowrap;
 }
 
 tr:hover {

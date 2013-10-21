@@ -12,7 +12,6 @@ package org.sencko.nalb.parser;
 
 import java.io.BufferedReader;
 import java.io.CharArrayReader;
-import java.io.CharArrayWriter;
 import java.io.IOException;
 import java.io.InputStream;
 import java.text.SimpleDateFormat;
@@ -29,6 +28,7 @@ import org.apache.pdfbox.pdmodel.PDDocument;
 import org.apache.pdfbox.util.PDFTextStripper;
 
 public class Game {
+  public static final String TOTAL = "Общо";
   private static final TimeZone TIME_ZONE = TimeZone.getTimeZone("EET");
   static final Pattern teamMatcher = Pattern.compile("(\\S+)\\s+(\\d+)\\s+\\-\\s+(\\d+)\\s+(\\S+).*");
   static final Pattern gameNumber = Pattern.compile(".+\\s+(\\d+)\\s*");
@@ -121,7 +121,7 @@ public class Game {
         rowCache = readLine();
         currentMatcher = playerStats.matcher(rowCache);
       } while (!currentMatcher.matches());
-      PlayerStats team = new PlayerStats("Общо");
+      PlayerStats team = new PlayerStats(TOTAL);
       Matcher totalsMatcher = null;
       do {
         if (currentMatcher.matches()) {
@@ -146,7 +146,10 @@ public class Game {
     } while (!currentMatcher.matches());
     
     String[] splitted = rowCache.split("\\s");
-    for (int i = 1; i < splitted.length; i++) {
+    for (int i = 2; i < 9; i+=2) {
+      param.add(Integer.parseInt(splitted[i]));
+    }
+    for (int i = 9; i < splitted.length; i++) {
       param.add(Integer.parseInt(splitted[i]));
     }
   }
@@ -174,7 +177,10 @@ public class Game {
     sb.append("</h3>");
     sb.append("<table border=\"1\" ><thead>");
     sb.append("<tr><th>Отбор</th>");
-    for (int i = 0; i < scoring5minHome.size(); i++) {
+    for (int i = 0; i < 4; i++) {
+      sb.append("<th>").append((i + 1) * 10 + "'").append("</th>");
+    }
+    for (int i = 8; i < scoring5minHome.size(); i++) {
       sb.append("<th>").append((i + 1) * 5 + "'").append("</th>");
     }
     sb.append("<th>Общо</th>");

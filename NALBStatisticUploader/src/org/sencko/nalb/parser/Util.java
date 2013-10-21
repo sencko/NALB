@@ -79,23 +79,9 @@ public class Util {
   public static String getTeamInitial(String homeTeam) {
     return Util.getProperties("aliases").getProperty(resolveDLA(Util.getProperties("aliases"), homeTeam));
   }
-
+  static DamerauLevenshteinAlgorithm dla = new DamerauLevenshteinAlgorithm(1, 1, 1, 1);
   public static String resolveDLA(Properties properties, String homeTeam) {
-    DamerauLevenshteinAlgorithm dla = new DamerauLevenshteinAlgorithm(1, 1, 1, 1);
-    int min = Integer.MAX_VALUE;
-    String closest = null;
-    for (Object key : properties.keySet()) {
-      String current = (String) key;
-      int distance = dla.execute(homeTeam, current);
-      if (distance < min) {
-        min = distance;
-        closest = current;
-      }
-    }
-    if ((min > 6) || (min > (homeTeam.length() / 2))) {
-      System.out.println(homeTeam + " -> " + closest + " = " + min);
-    }
-    return closest;
+    return dla.getClosest(homeTeam, properties.stringPropertyNames());
   }
 
   public static String resolveAlias(String alias) {

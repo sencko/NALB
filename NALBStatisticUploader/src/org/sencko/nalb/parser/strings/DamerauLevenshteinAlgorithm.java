@@ -1,5 +1,6 @@
 package org.sencko.nalb.parser.strings;
 
+import java.util.Collection;
 import java.util.HashMap;
 import java.util.Map;
 
@@ -156,5 +157,23 @@ public class DamerauLevenshteinAlgorithm {
       sourceIndexByCharacter.put(source.charAt(i), i);
     }
     return table[source.length() - 1][target.length() - 1];
+  }
+  
+  public String getClosest(String source, Collection<String> targets) {
+    int min = Integer.MAX_VALUE;
+    
+    String closest = null;
+    
+    for (String key : targets) {
+      int distance = execute(source, key);
+      if (distance < min) {
+        min = distance;
+        closest = key;
+      }
+    }
+    if ((min > 6) || (min > (source.length() / 2))) {
+      System.out.println(source + " -> " + closest + " = " + min);
+    }
+    return closest;
   }
 }

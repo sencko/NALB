@@ -37,42 +37,37 @@ public class Game {
   static Pattern teamTotals = Pattern.compile("Team Totals:\\s+(\\d+)\\s+(\\d+)\\s+(\\d+)\\s+(\\d+)\\s+(\\d+)\\s*");
   static Pattern dateTime = Pattern.compile("Date:\\s+(\\d+)\\.(\\d+)\\.(\\d+)\\s+Time:\\s+(\\d+):(\\d+)\\s+.*");
   static SimpleDateFormat sdf = new SimpleDateFormat("EEEE, dd MMMM yyyy HH:mm", new Locale("bg"));
-  
+
   static String FORMAT = Util.readResource("game.html");
 
-
-  String homeTeam;
-  String awayTeam;
+  TeamStats homeTeam;
+  TeamStats awayTeam;
   Calendar date;
 
   List<Integer> scoring5minHome = new ArrayList<Integer>();
   List<Integer> scoring5minAway = new ArrayList<Integer>();
-  ArrayList<PlayerStats> playersStatsHome = new ArrayList<PlayerStats>();
-  ArrayList<PlayerStats> playersStatsAway = new ArrayList<PlayerStats>();
   BufferedReader reader;
   int gameNo;
-  
-  
+
   transient String rowCache = null;
   transient Matcher currentMatcher = null;
 
-  public Game( InputStream stream,OptimizedCharArrayWriter writer,PDFTextStripper stripper) throws Exception {
+  public Game( InputStream stream, OptimizedCharArrayWriter writer, PDFTextStripper stripper) throws Exception {
     PDDocument document = PDDocument.load(stream);
 
-    
     writer.reset();
 
     stripper.writeText(document, writer);
 
-    reader = new BufferedReader(new CharArrayReader(writer.getBuffer(),0,writer.size()));
+    reader = new BufferedReader(new CharArrayReader(writer.getBuffer(), 0, writer.size()));
     try {
       extractTeamNames();
       extractGameNumber();
       extractMatchTime();
       extract5minPeriodScore(scoring5minHome, homeTeam);
       extract5minPeriodScore(scoring5minAway, awayTeam);
-      extractPlayerStats(playersStatsHome, homeTeam);
-      extractPlayerStats(playersStatsAway, awayTeam);
+      extractPlayerStats(homeTeam);
+      extractPlayerStats(awayTeam);
 
       document.close();
       rowCache = null;
@@ -108,45 +103,39 @@ public class Game {
     rowCache = readLine();
     currentMatcher = teamMatcher.matcher(rowCache);
     if (currentMatcher.matches()) {
-      homeTeam = currentMatcher.group(1);
-      awayTeam = currentMatcher.group(4);
+      homeTeam = new TeamStats(currentMatcher.group(1));
+      awayTeam = new TeamStats(currentMatcher.group(4));
     } else {
       throw new RuntimeException("Head error");
     }
   }
 
-  private void extractPlayerStats(ArrayList<PlayerStats> playerStatistics, String teamName) throws IOException {
-      String teamResolved = Util.getTeamInitial(teamName);
-      do {
-        rowCache = readLine();
-        currentMatcher = playerStats.matcher(rowCache);
-      } while (!currentMatcher.matches());
-      PlayerStats team = new PlayerStats(TOTAL);
-      Matcher totalsMatcher = null;
-      do {
-        if (currentMatcher.matches()) {
-          PlayerStats ps = new PlayerStats(currentMatcher, teamResolved);
-          playerStatistics.add(ps);
-          team.add(ps);
-        }
-        rowCache = readLine();
-        currentMatcher = playerStats.matcher(rowCache);
-      } while (!(totalsMatcher = teamTotals.matcher(rowCache)).matches());
-      TeamTotals teamTotals = new TeamTotals(totalsMatcher);
-      playerStatistics.add(teamTotals);
-      team.add(teamTotals);
-      playerStatistics.add(team);
+  private void extractPlayerStats(TeamStats teamName) throws IOException {
+    do {
+      rowCache = readLine();
+      currentMatcher = playerStats.matcher(rowCache);
+    } while (!currentMatcher.matches());
+    Matcher totalsMatcher = null;
+    do {
+      if (currentMatcher.matches()) {
+        PlayerStats ps = new PlayerStats(currentMatcher, teamName);
+      }
+      rowCache = readLine();
+      currentMatcher = playerStats.matcher(rowCache);
+    } while (!(totalsMatcher = teamTotals.matcher(rowCache)).matches());
+    TeamTotals teamTotals = new TeamTotals(totalsMatcher);
+    teamName.addTeamTotals(teamTotals);
   }
 
-  private void extract5minPeriodScore(List<Integer> param, String teamName) throws IOException {
-    Pattern fiveMinPatternHome = Pattern.compile(teamName + "(\\s+(\\d+)){8,}\\s*");
+  private void extract5minPeriodScore(List<Integer> param, TeamStats teamName) throws IOException {
+    Pattern fiveMinPatternHome = Pattern.compile(teamName.getAlias() + "(\\s+(\\d+)){8,}\\s*");
     do {
       rowCache = readLine();
       currentMatcher = fiveMinPatternHome.matcher(rowCache);
     } while (!currentMatcher.matches());
-    
+
     String[] splitted = rowCache.split("\\s");
-    for (int i = 2; i < 9; i+=2) {
+    for (int i = 2; i < 9; i += 2) {
       param.add(Integer.parseInt(splitted[i]));
     }
     for (int i = 9; i < splitted.length; i++) {
@@ -156,17 +145,14 @@ public class Game {
 
   private String readLine() throws IOException {
     String text = reader.readLine();
-//    System.err.println(text);
+    // System.err.println(text);
     return text;
   }
 
-
   public void toHtml(Formatter formatter) {
-    formatter.format(FORMAT, getHomeTeam(), getAwayTeam(), getHomeTeam(), getAwayTeam(), getScoreByPeriods(), getHomeTeam(),
-        getPlayersToHtml(playersStatsHome.subList(0, playersStatsHome.size() - 2)),
-        getPlayersToHtml(playersStatsHome.subList(playersStatsHome.size() - 2, playersStatsHome.size())), getAwayTeam(),
-        getPlayersToHtml(playersStatsAway.subList(0, playersStatsAway.size() - 2)),
-        getPlayersToHtml(playersStatsAway.subList(playersStatsAway.size() - 2, playersStatsAway.size())));
+    formatter.format(FORMAT, homeTeam.getTeam().getName(), awayTeam.getTeam().getName(), homeTeam.getTeam().getName(), awayTeam.getTeam().getName(), getScoreByPeriods(), homeTeam.getTeam().getName(),
+        getPlayersToHtml(homeTeam.getPlayerStats()), getPlayersToHtml(homeTeam.getTeamTotals(), homeTeam), awayTeam.getTeam().getName(),
+        getPlayersToHtml(awayTeam.getPlayerStats()), getPlayersToHtml(awayTeam.getTeamTotals(), awayTeam));
   }
 
   private String getScoreByPeriods() {
@@ -185,10 +171,10 @@ public class Game {
     }
     sb.append("<th>Общо</th>");
     sb.append("</tr></thead><tbody>");
-    
-    scoringPerPeriodInHtml(sb, getHomeTeam(), scoring5minHome);
-    scoringPerPeriodInHtml(sb, getAwayTeam(), scoring5minAway);
-    
+
+    scoringPerPeriodInHtml(sb, homeTeam.getTeam().getName(), scoring5minHome);
+    scoringPerPeriodInHtml(sb, awayTeam.getTeam().getName(), scoring5minAway);
+
     sb.append("</tbody></table>");
     return sb.toString();
   }
@@ -214,13 +200,13 @@ public class Game {
     return builder.toString();
   }
 
-  private String getAwayTeam() {
-    return Util.getTeamName(awayTeam);
-  }
-
-  private String getHomeTeam() {
-    return Util.getTeamName(homeTeam);
-
+  private String getPlayersToHtml(PlayerStats... playersStatsHome2) {
+    StringBuilder builder = new StringBuilder();
+    Formatter formatter = new Formatter(builder);
+    for (PlayerStats ps : playersStatsHome2) {
+      ps.toHTML(formatter);
+    }
+    return builder.toString();
   }
 
 }

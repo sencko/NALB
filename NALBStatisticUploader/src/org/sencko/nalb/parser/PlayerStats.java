@@ -14,9 +14,11 @@ import java.util.Formatter;
 import java.util.regex.Matcher;
 
 public class PlayerStats {
-  String team;
+  TeamStats team;
+  Player player;
 
-  public PlayerStats( Matcher head, String team) {
+  
+  public PlayerStats( Matcher head, TeamStats team) {
     this.team = team;
     starting = head.group(1) != null;
     number = Integer.parseInt(head.group(2));
@@ -34,6 +36,8 @@ public class PlayerStats {
     blocksAgainst = Integer.parseInt(head.group(25));
     fouls = Integer.parseInt(head.group(26));
     foulsAgainst = Integer.parseInt(head.group(27));
+    team.addPlayerStats(this);
+    player = team.resolvePlayer(name);
   }
 
   protected PlayerStats( String name) {
@@ -84,40 +88,17 @@ public class PlayerStats {
   }
 
   static String FORMAT = Util.readResource("player.html");
-  static String TEAM_TOTAL = Util.readResource("total.html");
+
 
   public void toHTML(Formatter formatter) {
-    if (Game.TOTAL.equals(name)){
-      formatter.format(TEAM_TOTAL,  getName(), twoPoints.made,
-          twoPoints.attempted, twoPoints.getPercentage(), threePoints.made, threePoints.attempted, threePoints.getPercentage(), freeThrow.made,
-          freeThrow.attempted, freeThrow.getPercentage(), offensiveRebounds, defensiveRebounds, offensiveRebounds + defensiveRebounds, assists,
-          turnovers, steals, blocks, blocksAgainst, fouls, foulsAgainst, getPoints(), getEfficiency()
-
-      );      
-    } else{ 
-    
-    formatter.format(FORMAT, (starting ? "class=\"starter\"" : "class=\"sub\""), number, getName(), playTime / 60, playTime % 60, twoPoints.made,
+    formatter.format(FORMAT, (starting ? "class=\"starter\"" : "class=\"sub\""), number, player.getName(), playTime / 60, playTime % 60, twoPoints.made,
         twoPoints.attempted, twoPoints.getPercentage(), threePoints.made, threePoints.attempted, threePoints.getPercentage(), freeThrow.made,
         freeThrow.attempted, freeThrow.getPercentage(), offensiveRebounds, defensiveRebounds, offensiveRebounds + defensiveRebounds, assists,
         turnovers, steals, blocks, blocksAgainst, fouls, foulsAgainst, getPoints(), getEfficiency()
 
     );
   }
-  }
 
-  private String getName() {
-    if (team == null) {
-      return name;
-    }
-    
-    String value = Util.getProperties(team).getProperty(Util.resolveDLA(Util.getProperties(team), name));// Util.getProperties(Util.resolveAlias(team)).getProperty(Util.resolveAlias(name));
-    if (value == null) {
-      System.out.println(team + ":" + name);
-      return name;
-    } else {
-      return value.split("=")[0];
-    }
-  }
 
   int getPoints() {
     return 2 * twoPoints.made + 3 * threePoints.made + 1 * freeThrow.made;

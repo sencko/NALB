@@ -71,24 +71,13 @@ public class Util {
     return ret;
   }
 
-  public static String getTeamName(String homeTeam) {
-    String original = getTeamInitial(homeTeam);
-    return Util.getProperties(original).getProperty("name");
-  }
-
-  public static String getTeamInitial(String homeTeam) {
-    return Util.getProperties("aliases").getProperty(resolveDLA(Util.getProperties("aliases"), homeTeam));
-  }
   static DamerauLevenshteinAlgorithm dla = new DamerauLevenshteinAlgorithm(1, 1, 1, 1);
   public static String resolveDLA(Properties properties, String homeTeam) {
     return dla.getClosest(homeTeam, properties.stringPropertyNames());
   }
 
-  public static String resolveAlias(String alias) {
-    String original = Util.getProperties("aliases").getProperty(alias);
-    if (original == null) {
-      original = alias;
-    }
-    return original;
+  
+  public static String getTeamInitial(String homeTeam) {
+    return Util.getProperties("aliases").getProperty(resolveDLA(Util.getProperties("aliases"), homeTeam));
   }
 }

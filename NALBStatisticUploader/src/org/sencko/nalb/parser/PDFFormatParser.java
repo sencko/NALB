@@ -50,7 +50,7 @@ public class PDFFormatParser {
         System.out.println(file.getAbsolutePath());
         FileInputStream fis = new FileInputStream(file);
         Game game = new Game(fis, ocaw, stripper);
-        Formatter formatter = new Formatter("results/" + game.homeTeam + "-" + game.awayTeam + game.gameNo + ".html", "UTF-8");
+        Formatter formatter = new Formatter("results/" + game.homeTeam.getTeam().getAlias() + "-" + game.awayTeam.getTeam().getAlias() + game.gameNo + ".html", "UTF-8");
         game.toHtml(formatter);
         formatter.close();
       } catch (Exception ex) {

@@ -156,7 +156,7 @@ public class Game {
   }
 
   private String getScoreByPeriods() {
-    StringBuilder sb = new StringBuilder(800);
+    StringBuilder sb = new StringBuilder(350);
     sb.append("<h3>");
 
     sb.append(sdf.format(date.getTime()));
@@ -192,7 +192,7 @@ public class Game {
   }
 
   private String getPlayersToHtml(List<PlayerStats> playersStatsHome2) {
-    StringBuilder builder = new StringBuilder();
+    StringBuilder builder = new StringBuilder(playersStatsHome2.size() * 350);
     Formatter formatter = new Formatter(builder);
     for (PlayerStats ps : playersStatsHome2) {
       ps.toHTML(formatter);
@@ -201,7 +201,7 @@ public class Game {
   }
 
   private String getPlayersToHtml(PlayerStats... playersStatsHome2) {
-    StringBuilder builder = new StringBuilder();
+    StringBuilder builder = new StringBuilder(playersStatsHome2.length * 350);
     Formatter formatter = new Formatter(builder);
     for (PlayerStats ps : playersStatsHome2) {
       ps.toHTML(formatter);

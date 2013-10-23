@@ -36,18 +36,18 @@ public class Team {
   public Player resolvePlayer(String name2) {
     Player toRet = playerCache.get(name2);
     if (toRet == null) {
-      String value = Util.resolveDLA(players, name2);// Util.getProperties(Util.resolveAlias(team)).getProperty(Util.resolveAlias(name));
+      String name = Util.getProperties("aliases").getProperty(name2);
+      if (name == null){
+        name = name2;
+      }
+      String value = Util.dla.getClosestTransliterate(name, players.stringPropertyNames());//Util.resolveDLA(players, name2);// Util.getProperties(Util.resolveAlias(team)).getProperty(Util.resolveAlias(name));
       toRet = playerCache.get(value);
       if (toRet == null) {
         String pValue = players.getProperty(value);
         toRet = new Player(this, value, pValue.split("="));
         playerCache.put(value, toRet);
       }
-
-      if (!name2.equals(value)) {
-        playerCache.put(name2, toRet);
-      }
-
+      playerCache.put(name2, toRet);
     }
     return toRet;
 

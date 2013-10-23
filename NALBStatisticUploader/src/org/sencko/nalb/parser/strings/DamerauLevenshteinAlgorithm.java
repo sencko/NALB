@@ -176,4 +176,22 @@ public class DamerauLevenshteinAlgorithm {
     }
     return closest;
   }
+  
+  public String getClosestTransliterate(String source, Collection<String> targets) {
+    int min = Integer.MAX_VALUE;
+    
+    String closest = null;
+    
+    for (String key : targets) {
+      int distance = execute(source, StringUtils.transliterateWithCache(key));
+      if (distance < min) {
+        min = distance;
+        closest = key;
+      }
+    }
+    if ((min > 6) || (min > (source.length() / 2))) {
+      System.out.println(source + " -> " + closest + " = " + min);
+    }
+    return closest;
+  }
 }

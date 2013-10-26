@@ -7,7 +7,7 @@
   <servlet-mapping>
     <servlet-name>greetServlet</servlet-name>
     <url-pattern>/nalb2013/greet</url-pattern>
-  </servlet-mapping>
+  </servlet-mapping> 
   <welcome-file-list>
     <welcome-file>Nalb2013.html</welcome-file>
   </welcome-file-list>
@@ -21,7 +21,7 @@
     <servlet-name>Nalb2013Servlet</servlet-name>
     <url-pattern>/nalb2013</url-pattern>
   </servlet-mapping>
-  <servlet>
+  <!--<servlet>
     <servlet-name>Faces Servlet</servlet-name>
     <servlet-class>javax.faces.webapp.FacesServlet</servlet-class>
     <load-on-startup>1</load-on-startup>
@@ -29,5 +29,5 @@
   <servlet-mapping>
     <servlet-name>Faces Servlet</servlet-name>
     <url-pattern>/faces/*</url-pattern>
-  </servlet-mapping>
+  </servlet-mapping> -->
 </web-app>

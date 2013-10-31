@@ -1,0 +1,35 @@
+<html>
+<head>
+<title>Статистика за отбор: %s </title>
+<meta charset="UTF-8"/>
+<link rel="stylesheet" type="text/css" href="nalb.css"/>
+</head>
+<body><div align="center"><h2>Статистика за отбор: %s</h2></div>
+<div align="center">
+<h2>Отбор %s</h2>
+<table border="1" id="home">
+<thead>
+<tr>
+<th rowspan="2">Име</th><th rowspan="2" title="Мачове">М</th><th rowspan="2" title="Титуляр">Т</th><th rowspan="2" title="Игрово време" style="width: 40px;">мин</th><th colspan="3" title="Стрелба за 2 точки">2т</th><th colspan="3" title="Стрелба за 3 точки">3т</th><th colspan="3" title="Стрелба наказателни удари">ну</th><th colspan="3" title="Овладени топки">борби</th><th rowspan="2" title="Асистенции" >ас</th><th rowspan="2" title="Грешки" >гр</th><th rowspan="2" title="Откраднати топки" >от</th><th colspan="2" title="Блокирани стрелби">чадъри</th><th colspan="2" title="Нарушения">фалове</th><th rowspan="2" title="Реализирани точки" style="width: 40px;">точки</th><th rowspan="2" title="Ефективност" style="width: 40px;">коеф</th>
+</tr>
+<tr>
+<th title="Вкарани">Вк</th><th title="Опитани">Оп</th><th style="width: 50px;" title="Процента">%%</th><th title="Вкарани">Вк</th><th title="Опитани">Оп</th><th style="width: 50px;" title="Процента">%%</th><th title="Вкарани">Вк</th><th title="Опитани">Оп</th><th style="width: 50px;" title="Процента">%%</th><th title="Нападение">Н</th><th title="Защита">З</th><th title="Общо">О</th><th title="Направени">нап</th><th title="Получени">пол</th><th title="Направени">нап</th><th title="Получени">пол</th>
+</tr>
+</thead>
+<tbody>%s</tbody>
+<tfoot>%s</tfoot>
+</table>
+</div>
+
+
+<div><b>Коефициент: </b>(Точки + Борби + Асистенции + Откраднати топки + Направени чадъри + Получени лични нарушения) – ((Направени стрелби – Сполучливи стрелби за 2 точки) + (Направени стрелби – Сполучливи стрелби за 3 точки) + Грешки + Получени чадъри + Извършени лични нарушения)
+</div>
+<script type="text/javascript" src="gs_sortable.js"></script>
+<script type="text/javascript">
+<!--
+var TSort_Data = new Array ('home', 's', 'i', 'i', 's', 'f','f','f', 'f','f','f', 'f','f','f', 'f','f', 'f','f', 'f','f', 'f','f', 'f','f', 'f','f');
+tsRegister();
+// -->
+</script> 
+</body>
+</html>

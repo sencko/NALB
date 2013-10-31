@@ -1,15 +1,20 @@
 
 package org.sencko.nalb.parser;
 
+import java.util.Formatter;
 import java.util.HashMap;
+import java.util.HashSet;
 import java.util.Properties;
+import java.util.Set;
 
 public class Team {
   static HashMap<String, Team> teamCache = new HashMap<String, Team>();
+  public static Set<Team> teamSet = new HashSet<Team>(); 
   private String alias;
   private String name;
   Properties players;
   HashMap<String, Player> playerCache = new HashMap<String, Player>();
+  Set<Player> playerSet = new HashSet<Player>();
 
   private Team( String alias2, Properties properties) {
     alias = alias2;
@@ -30,6 +35,7 @@ public class Team {
         teamCache.put(alias, toRet);
       }
     }
+    teamSet.add(toRet);
     return toRet;
   }
 
@@ -49,6 +55,7 @@ public class Team {
       }
       playerCache.put(name2, toRet);
     }
+    playerSet.add(toRet);
     return toRet;
 
   }
@@ -60,4 +67,21 @@ public class Team {
   public String getAlias() {
     return alias;
   }
+  
+  static String TEAM_STATS = Util.readResource("team.html");
+  
+  public void toHtml(Formatter formatter) {
+    StringBuilder builder = new StringBuilder();
+    Formatter temp = new Formatter(builder);
+    
+    for(Player player:playerSet){
+      AveragePlayerStats aps = player.getAveragePlayerStats();
+      aps.toHTML(temp);
+    }
+    temp.close();
+    String stringPlayers =  builder.toString();
+    
+    formatter.format(TEAM_STATS, name, name, name, stringPlayers, "");
+  }
+  
 }

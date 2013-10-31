@@ -14,8 +14,8 @@ import java.util.Formatter;
 import java.util.regex.Matcher;
 
 public class PlayerStats {
-  TeamStats team;
-  Player player;
+  protected TeamStats team;
+  protected Player player;
 
   
   public PlayerStats( Matcher head, TeamStats team) {
@@ -38,10 +38,15 @@ public class PlayerStats {
     foulsAgainst = Integer.parseInt(head.group(27));
     team.addPlayerStats(this);
     player = team.resolvePlayer(name);
+    player.add(this);
   }
 
   protected PlayerStats( String name) {
     this.name = name;
+  }
+  
+  protected PlayerStats(Player player){
+    this.player = player;
   }
 
   protected void add(PlayerStats player) {

@@ -58,6 +58,17 @@ public class PDFFormatParser {
         ex.printStackTrace();
       }
     }
+    
+    for (Team team: Team.teamSet){
+      try {
+        Formatter formatter = new Formatter("results/" + team.getAlias() + ".html", "UTF-8");
+        team.toHtml(formatter);
+        formatter.close();
+      } catch (Exception ex) {
+
+        ex.printStackTrace();
+      }      
+    }
 
   }
 

@@ -21,6 +21,11 @@ public class Team {
     players = properties;
     name = players.getProperty("name");
   }
+  
+  public Team() {
+    alias = "ALL";
+    name = "Всички играчи";
+  }
 
   public static Team getTeam(String alias) {
     Team toRet = teamCache.get(alias);
@@ -82,6 +87,10 @@ public class Team {
     String stringPlayers =  builder.toString();
     
     formatter.format(TEAM_STATS, name, name, name, stringPlayers, "");
+  }
+  
+  public void add(Team team){
+    playerSet.addAll(team.playerSet);
   }
   
 }

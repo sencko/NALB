@@ -7,21 +7,18 @@
 <!-- but may lead to some differences in layout.   -->
 
 <html>
-  <head>
-    <meta http-equiv="content-type" content="text/html; charset=UTF-8">
-    <title>Hello App Engine</title>
-  </head>
-
-  <body>
-    <h1>Hello App Engine!</h1>
-	
-    <table>
-      <tr>
-        <td colspan="2" style="font-weight:bold;">Available Servlets:</td>        
-      </tr>
-      <tr>
-        <td><a href="nalb2013">Nalb2013</a></td>
-      </tr>
-    </table>
-  </body>
+    <head>
+        <title>Apache Commons File Upload Example 3</title>
+        <meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
+    </head>
+    <body>
+        <h1>Apache Commons File Upload Example 3</h1>
+        <p>
+            This example uploads a multiple files.
+        </p>
+        <form id="form1" enctype="multipart/form-data" method="post" action="CommonsFileUploadServlet">
+            <input type="file" multiple="true" name="files"/>
+            <input type="submit" value="Upload"/>
+        </form>
+    </body>
 </html>

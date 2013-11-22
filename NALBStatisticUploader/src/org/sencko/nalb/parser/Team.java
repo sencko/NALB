@@ -9,7 +9,7 @@ import java.util.Set;
 
 public class Team {
   static HashMap<String, Team> teamCache = new HashMap<String, Team>();
-  public static Set<Team> teamSet = new HashSet<Team>(); 
+  public static Set<Team> teamSet = new HashSet<Team>();
   private String alias;
   private String name;
   Properties players;
@@ -21,10 +21,14 @@ public class Team {
     players = properties;
     name = players.getProperty("name");
   }
-  
+
   public Team() {
-    alias = "ALL";
-    name = "Всички играчи";
+    this("ALL", "Всички играчи");
+  }
+
+  public Team( String alias, String name) {
+    this.alias = alias;
+    this.name = name;
   }
 
   public static Team getTeam(String alias) {
@@ -48,10 +52,11 @@ public class Team {
     Player toRet = playerCache.get(name2);
     if (toRet == null) {
       String name = Util.getProperties("aliases").getProperty(name2);
-      if (name == null){
+      if (name == null) {
         name = name2;
       }
-      String value = Util.dla.getClosestTransliterate(name, players.stringPropertyNames());//Util.resolveDLA(players, name2);// Util.getProperties(Util.resolveAlias(team)).getProperty(Util.resolveAlias(name));
+      String value = Util.dla.getClosestTransliterate(name, players.stringPropertyNames());// Util.resolveDLA(players, name2);//
+                                                                                           // Util.getProperties(Util.resolveAlias(team)).getProperty(Util.resolveAlias(name));
       toRet = playerCache.get(value);
       if (toRet == null) {
         String pValue = players.getProperty(value);
@@ -72,25 +77,29 @@ public class Team {
   public String getAlias() {
     return alias;
   }
-  
+
   static String TEAM_STATS = Util.readResource("team.html");
-  
-  public void toHtml(Formatter formatter) {
+
+  public void toHtml(Formatter formatter, boolean totals) {
     StringBuilder builder = new StringBuilder();
     Formatter temp = new Formatter(builder);
-    
-    for(Player player:playerSet){
+
+    for (Player player : playerSet) {
       AveragePlayerStats aps = player.getAveragePlayerStats();
-      aps.toHTML(temp);
+      if (totals) {
+        aps.toTotalHtml(temp);
+      } else {
+        aps.toHTML(temp);
+      }
     }
     temp.close();
-    String stringPlayers =  builder.toString();
-    
+    String stringPlayers = builder.toString();
+
     formatter.format(TEAM_STATS, name, name, name, stringPlayers, "");
   }
-  
-  public void add(Team team){
+
+  public void add(Team team) {
     playerSet.addAll(team.playerSet);
   }
-  
+
 }

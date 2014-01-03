@@ -36,6 +36,7 @@ import org.apache.commons.fileupload.servlet.ServletFileUpload;
 import org.apache.pdfbox.util.PDFTextStripper;
 import org.sencko.nalb.parser.Game;
 import org.sencko.nalb.parser.OptimizedCharArrayWriter;
+import org.sencko.nalb.parser.PDFFormatParser;
 
 /**
  * 
@@ -45,75 +46,42 @@ import org.sencko.nalb.parser.OptimizedCharArrayWriter;
 public class UploadPDFServlet extends HttpServlet {
 
   private static final long serialVersionUID = -1945975988931576619L;
-  private static final String TMP_DIR_PATH = "/var/tmp";
-  private File tmpDir;
-  private static final String DESTINATION_DIR_PATH = "files";
-  private File destinationDir;
 
   @Override
   public void init(ServletConfig config) throws ServletException {
     super.init(config);
-    // log(getServletContext().getRealPath(DESTINATION_DIR_PATH));
-    // log(TMP_DIR_PATH);
-    // tmpDir = new File(TMP_DIR_PATH);
-    // if (!tmpDir.isDirectory()) {
-    // throw new ServletException(TMP_DIR_PATH + " is not a directory");
-    // }
-    //
-    // String realPath = getServletContext().getRealPath(DESTINATION_DIR_PATH);
-    // destinationDir = new File(realPath);
-    // if (!destinationDir.isDirectory()) {
-    // throw new ServletException(DESTINATION_DIR_PATH + " is not a directory");
-    // }
-
+    PDFFormatParser.setIncludeScripts();
   }
 
   @Override
   protected void doPost(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
-//    PrintWriter out = response.getWriter();
     response.setContentType("text/html");
     log("Content-Type: " + request.getContentType());
-
-//    out.println("<html><head><title>CommonsFileUploadServlet</title></head><body><p>");
 
     ServletFileUpload uploadHandler = new ServletFileUpload(new VirtualFileItemFactory());
     try {
       /*
        * Parse the request
        */
-      List items = uploadHandler.parseRequest(request);
+      List<FileItem> items = uploadHandler.parseRequest(request);
       log("FileItems: " + items.toString());
-      Iterator itr = items.iterator();
+      Iterator<FileItem> itr = items.iterator();
       while (itr.hasNext()) {
 
-        FileItem item = (FileItem) itr.next();
-        /*
-         * Handle Form Fields.
-         */
-//        if (item.isFormField()) {
-//          out.println("File Name = " + item.getFieldName() + ", Value = " + item.getString());
-//        } else {
-          // Handle Uploaded files.
+        FileItem item = itr.next();
 
-          log("Field Name = " + item.getFieldName() + "\nFile Name = " + item.getName() + "\nContent type = " + item.getContentType()
-              + "\nFile Size = " + item.getSize());
+        log("Field Name = " + item.getFieldName() + "\nFile Name = " + item.getName() + "\nContent type = " + item.getContentType()
+            + "\nFile Size = " + item.getSize());
 
-
-          /*
-           * Write file to the ultimate location.
-           */
-//          File file = new File(destinationDir, item.getName());
-//          item.write(file);
-          
-//          System.out.println(file.getAbsolutePath());
-          PDFTextStripper stripper = new PDFTextStripper();
-          stripper.setSortByPosition(true);
-          OptimizedCharArrayWriter ocaw = new OptimizedCharArrayWriter();
-          Game game = new Game(item.getInputStream(), ocaw, stripper);
-          Formatter formatter = new Formatter(response.getOutputStream(), "UTF-8");
-          game.toHtml(formatter);
-          formatter.close();
-//        }
+        PDFTextStripper stripper = new PDFTextStripper();
+        stripper.setSortByPosition(true);
+        OptimizedCharArrayWriter ocaw = new OptimizedCharArrayWriter();
+        Game game = new Game(item.getInputStream(), ocaw, stripper);
+        request.setAttribute("game", game);
+        Formatter formatter = new Formatter(response.getOutputStream(), "UTF-8");
+        game.toEditHtml(formatter);
+        //game.toHtml(formatter);
+        formatter.close();
 
       }
     } catch (FileUploadException ex) {
@@ -121,7 +89,6 @@ public class UploadPDFServlet extends HttpServlet {
     } catch (Exception ex) {
       log("Error encountered while uploading file", ex);
     }
-//    out.println("</body></html>");
-//    out.close();
+
   }
 }

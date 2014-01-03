@@ -39,10 +39,7 @@ public class PDFFormatParser {
     // fos.write(game.toHtml().getBytes("UTF-8"));
     // fos.close();
     if (includeScripts){
-      style = "<style type=\"text/css\">" + Util.readResource("nalb.css") + "</style>";
-      javaScript = "<script type=\"text/javascript\"><!--" + Util.readResource("gs_sortable.js") + "// --></script>";
-      Game.FORMAT = Game.FORMAT.replace(styleToReplace, style).replace(scriptToReplace,javaScript);
-      Team.TEAM_STATS = Team.TEAM_STATS.replace(styleToReplace, style).replace(scriptToReplace,javaScript);
+      setIncludeScripts();
     }
     
     File folder = new File("pdf");
@@ -91,6 +88,12 @@ public class PDFFormatParser {
       ex.printStackTrace();
     }      
 
+  }
+  public static void setIncludeScripts() {
+    style = "<style type=\"text/css\">" + Util.readResource("nalb.css") + "</style>";
+    javaScript = "<script type=\"text/javascript\"><!--" + Util.readResource("gs_sortable.js") + "// --></script>";
+    Game.FORMAT = Game.FORMAT.replace(styleToReplace, style).replace(scriptToReplace,javaScript);
+    Team.TEAM_STATS = Team.TEAM_STATS.replace(styleToReplace, style).replace(scriptToReplace,javaScript);
   }
 
 }

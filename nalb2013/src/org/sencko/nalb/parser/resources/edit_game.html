@@ -1,0 +1,61 @@
+<html>
+<head>
+<title>Статистика за мач: %s : %s</title>
+<meta charset="UTF-8"/>
+<link rel="stylesheet" type="text/css" href="nalb.css"/>
+</head>
+<body><div align="center"><h2>Статистика за %s : %s</h2></div>
+<div align="center">
+%s
+</div>
+<hr/>
+<form method="POST" action="">
+<div align="center">
+<h2>Отбор %s</h2>
+<table border="1" id="home">
+<thead>
+<tr>
+<th rowspan="2" style="width: 21px;">№</th><th rowspan="2">Име</th><th rowspan="2" title="Игрово време" style="width: 40px;">мин</th><th colspan="2" title="Стрелба за 2 точки">2т</th><th colspan="2" title="Стрелба за 3 точки">3т</th><th colspan="2" title="Стрелба наказателни удари">ну</th><th colspan="2" title="Овладени топки">борби</th><th rowspan="2" title="Асистенции" >ас</th><th rowspan="2" title="Грешки" >гр</th><th rowspan="2" title="Откраднати топки" >от</th><th colspan="2" title="Блокирани стрелби">чадъри</th><th colspan="2" title="Нарушения">фалове</th>
+</tr>
+<tr>
+<th title="Вкарани">Вк</th><th title="Опитани">Оп</th><th title="Вкарани">Вк</th><th title="Опитани">Оп</th><th title="Вкарани">Вк</th><th title="Опитани">Оп</th><th title="Нападение">Н</th><th title="Защита">З</th><th title="Направени">нап</th><th title="Получени">пол</th><th title="Направени">нап</th><th title="Получени">пол</th>
+</tr>
+</thead>
+<tbody>%s</tbody>
+<tfoot></tfoot>
+</table>
+</div>
+
+<div align="center">
+<h2>Отбор %s</h2>
+<table border="1" id="away">
+<thead>
+<tr>
+<th rowspan="2" style="width: 21px;">№</th><th rowspan="2">Име</th><th rowspan="2" title="Игрово време" style="width: 40px;">мин</th><th colspan="2" title="Стрелба за 2 точки">2т</th><th colspan="2" title="Стрелба за 3 точки">3т</th><th colspan="2" title="Стрелба наказателни удари">ну</th><th colspan="2" title="Овладени топки">борби</th><th rowspan="2" title="Асистенции" >ас</th><th rowspan="2" title="Грешки" >гр</th><th rowspan="2" title="Откраднати топки" >от</th><th colspan="2" title="Блокирани стрелби">чадъри</th><th colspan="2" title="Нарушения">фалове</th>
+</tr>
+<tr>
+<th title="Вкарани">Вк</th><th title="Опитани">Оп</th><th title="Вкарани">Вк</th><th title="Опитани">Оп</th><th title="Вкарани">Вк</th><th title="Опитани">Оп</th><th title="Нападение">Н</th><th title="Защита">З</th><th title="Направени">нап</th><th title="Получени">пол</th><th title="Направени">нап</th><th title="Получени">пол</th>
+</tr>
+</thead>
+<tbody>%s</tbody>
+<tfoot></tfoot>
+</table>
+</div>
+<div align="center">
+<input type=hidden name=action value=edit/>
+<input type=submit name=submit/>
+</div>
+</form>
+<div><b>Коефициент: </b>(Точки + Борби + Асистенции + Откраднати топки + Направени чадъри + Получени лични нарушения) – ((Направени стрелби – Сполучливи стрелби за 2 точки) + (Направени стрелби – Сполучливи стрелби за 3 точки) + Грешки + Получени чадъри + Извършени лични нарушения)
+</div>
+<script type="text/javascript" src="gs_sortable.js"></script>
+<script type="text/javascript">
+<!--
+var TSort_Data = new Array ('home', 'i', 's', 's', 'i','i','f', 'i','i','f', 'i','i','f', 'i','i', 'i','i', 'i','i', 'i','i', 'i','i', 'i','i');
+tsRegister();
+var TSort_Data = new Array ('away', 'i', 's', 's', 'i','i','f', 'i','i','f', 'i','i','f', 'i','i', 'i','i', 'i','i', 'i','i', 'i','i', 'i','i');
+tsRegister();
+// -->
+</script> 
+</body>
+</html>

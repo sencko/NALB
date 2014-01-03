@@ -39,6 +39,7 @@ public class Game {
   static SimpleDateFormat sdf = new SimpleDateFormat("EEEE, dd MMMM yyyy HH:mm", new Locale("bg"));
 
   static String FORMAT = Util.readResource("game.html");
+  static String EDIT_FORMAT = Util.readResource("edit_game.html");
 
   TeamStats homeTeam;
   TeamStats awayTeam;
@@ -153,6 +154,21 @@ public class Game {
     formatter.format(FORMAT, homeTeam.getTeam().getName(), awayTeam.getTeam().getName(), homeTeam.getTeam().getName(), awayTeam.getTeam().getName(), getScoreByPeriods(), homeTeam.getTeam().getName(),
         getPlayersToHtml(homeTeam.getPlayerStats()), getPlayersToHtml(homeTeam.getTeamTotals(), homeTeam), awayTeam.getTeam().getName(),
         getPlayersToHtml(awayTeam.getPlayerStats()), getPlayersToHtml(awayTeam.getTeamTotals(), awayTeam));
+  }
+  
+  public void toEditHtml(Formatter formatter) {
+    formatter.format(EDIT_FORMAT, homeTeam.getTeam().getName(), awayTeam.getTeam().getName(), homeTeam.getTeam().getName(), awayTeam.getTeam().getName(), getScoreByPeriods(), homeTeam.getTeam().getName(),
+        getPlayersToEditHtml(homeTeam.getPlayerStats()), awayTeam.getTeam().getName(),
+        getPlayersToEditHtml(awayTeam.getPlayerStats()));
+  }
+
+  private String getPlayersToEditHtml(ArrayList<PlayerStats> playerStats2) {
+    StringBuilder builder = new StringBuilder(playerStats2.size() * 350);
+    Formatter formatter = new Formatter(builder);
+    for (PlayerStats ps : playerStats2) {
+      ps.toEditHTML(formatter);
+    }
+    return builder.toString();
   }
 
   private String getScoreByPeriods() {

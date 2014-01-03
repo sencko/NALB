@@ -93,6 +93,7 @@ public class PlayerStats {
   }
 
   static String FORMAT = Util.readResource("player.html");
+  static String EDIT_FORMAT = Util.readResource("edit_player.html");
 
 
   public void toHTML(Formatter formatter) {
@@ -112,6 +113,13 @@ public class PlayerStats {
   int getEfficiency() {
     return getPoints() + offensiveRebounds + defensiveRebounds + assists + steals + blocks + foulsAgainst + twoPoints.made + threePoints.made
         - twoPoints.attempted - threePoints.attempted - turnovers - blocksAgainst - fouls;
+  }
+
+  public void toEditHTML(Formatter formatter) {
+    formatter.format(EDIT_FORMAT.replace("%%id", String.valueOf(player.hashCode())), (starting ? "class=\"starter\"" : "class=\"sub\""), number, player.getName(), playTime, twoPoints.made,
+        twoPoints.attempted,  threePoints.made, threePoints.attempted,  freeThrow.made,
+        freeThrow.attempted,  offensiveRebounds, defensiveRebounds,  assists,
+        turnovers, steals, blocks, blocksAgainst, fouls, foulsAgainst);
   }
 
 }

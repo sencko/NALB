@@ -1,21 +1,21 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <web-app xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xmlns="http://java.sun.com/xml/ns/javaee" xsi:schemaLocation="http://java.sun.com/xml/ns/javaee http://java.sun.com/xml/ns/javaee/web-app_2_5.xsd" version="2.5">
-  <servlet>
+<!--   <servlet>
     <servlet-name>greetServlet</servlet-name>
     <servlet-class>com.sencko.nalb.server.GreetingServiceImpl</servlet-class>
   </servlet>
   <servlet-mapping>
     <servlet-name>greetServlet</servlet-name>
     <url-pattern>/nalb2013/greet</url-pattern>
-  </servlet-mapping> 
+  </servlet-mapping> -->
   <welcome-file-list>
-    <welcome-file>Nalb2013.html</welcome-file>
+    <welcome-file>index.html</welcome-file>
   </welcome-file-list>
   <servlet>
-    <description>Sample Servlet</description>
+    <description>Upload PDF Servlet</description>
     <display-name>Nalb2013Servlet</display-name>
     <servlet-name>Nalb2013Servlet</servlet-name>
-    <servlet-class>com.example.myproject.Nalb2013Servlet</servlet-class>
+    <servlet-class>com.sencko.nalb.ui.UploadPDFServlet</servlet-class>
   </servlet>
   <servlet-mapping>
     <servlet-name>Nalb2013Servlet</servlet-name>

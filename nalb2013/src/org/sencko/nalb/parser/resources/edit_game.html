@@ -2,9 +2,9 @@
 <head>
 <title>Статистика за мач: %s : %s</title>
 <meta charset="UTF-8"/>
-<link rel="stylesheet" type="text/css" href="nalb.css"/>
+<!-- <link rel="stylesheet" type="text/css" href="nalb.css"/> -->
 </head>
-<body><div align="center"><h2>Статистика за %s : %s</h2></div>
+<body onload="load()"><div align="center"><h2>Статистика за %s : %s</h2></div>
 <div align="center">
 %s
 </div>
@@ -15,7 +15,7 @@
 <table border="1" id="home">
 <thead>
 <tr>
-<th rowspan="2" style="width: 21px;">№</th><th rowspan="2">Име</th><th rowspan="2" title="Игрово време" style="width: 40px;">мин</th><th colspan="2" title="Стрелба за 2 точки">2т</th><th colspan="2" title="Стрелба за 3 точки">3т</th><th colspan="2" title="Стрелба наказателни удари">ну</th><th colspan="2" title="Овладени топки">борби</th><th rowspan="2" title="Асистенции" >ас</th><th rowspan="2" title="Грешки" >гр</th><th rowspan="2" title="Откраднати топки" >от</th><th colspan="2" title="Блокирани стрелби">чадъри</th><th colspan="2" title="Нарушения">фалове</th><th rowspan="2" title="Точки">точки</th><th rowspan="2" title="Коефицент">коеф</th>
+<th rowspan="2" style="width: 21px;">№</th><th rowspan="2">Име</th><th rowspan="2" title="Игрово време" style="width: 40px;">сек</th><th colspan="2" title="Стрелба за 2 точки">2т</th><th colspan="2" title="Стрелба за 3 точки">3т</th><th colspan="2" title="Стрелба наказателни удари">ну</th><th colspan="2" title="Овладени топки">борби</th><th rowspan="2" title="Асистенции" >ас</th><th rowspan="2" title="Грешки" >гр</th><th rowspan="2" title="Откраднати топки" >от</th><th colspan="2" title="Блокирани стрелби">чадъри</th><th colspan="2" title="Нарушения">фалове</th><th rowspan="2" title="Точки">точки</th><th rowspan="2" title="Коефицент">коеф</th>
 </tr>
 <tr>
 <th title="Вкарани">Вк</th><th title="Опитани">Оп</th><th title="Вкарани">Вк</th><th title="Опитани">Оп</th><th title="Вкарани">Вк</th><th title="Опитани">Оп</th><th title="Нападение">Н</th><th title="Защита">З</th><th title="Направени">нап</th><th title="Получени">пол</th><th title="Направени">нап</th><th title="Получени">пол</th>
@@ -31,7 +31,7 @@
 <table border="1" id="away">
 <thead>
 <tr>
-<th rowspan="2" style="width: 21px;">№</th><th rowspan="2">Име</th><th rowspan="2" title="Игрово време" style="width: 40px;">мин</th><th colspan="2" title="Стрелба за 2 точки">2т</th><th colspan="2" title="Стрелба за 3 точки">3т</th><th colspan="2" title="Стрелба наказателни удари">ну</th><th colspan="2" title="Овладени топки">борби</th><th rowspan="2" title="Асистенции" >ас</th><th rowspan="2" title="Грешки" >гр</th><th rowspan="2" title="Откраднати топки" >от</th><th colspan="2" title="Блокирани стрелби">чадъри</th><th colspan="2" title="Нарушения">фалове</th><th rowspan="2" title="Точки">точки</th><th rowspan="2" title="Коефицент">коеф</th>
+<th rowspan="2" style="width: 21px;">№</th><th rowspan="2">Име</th><th rowspan="2" title="Игрово време" style="width: 40px;">сек</th><th colspan="2" title="Стрелба за 2 точки">2т</th><th colspan="2" title="Стрелба за 3 точки">3т</th><th colspan="2" title="Стрелба наказателни удари">ну</th><th colspan="2" title="Овладени топки">борби</th><th rowspan="2" title="Асистенции" >ас</th><th rowspan="2" title="Грешки" >гр</th><th rowspan="2" title="Откраднати топки" >от</th><th colspan="2" title="Блокирани стрелби">чадъри</th><th colspan="2" title="Нарушения">фалове</th><th rowspan="2" title="Точки">точки</th><th rowspan="2" title="Коефицент">коеф</th>
 </tr>
 <tr>
 <th title="Вкарани">Вк</th><th title="Опитани">Оп</th><th title="Вкарани">Вк</th><th title="Опитани">Оп</th><th title="Вкарани">Вк</th><th title="Опитани">Оп</th><th title="Нападение">Н</th><th title="Защита">З</th><th title="Направени">нап</th><th title="Получени">пол</th><th title="Направени">нап</th><th title="Получени">пол</th>
@@ -48,16 +48,25 @@
 </form>
 <div><b>Коефициент: </b>(Точки + Борби + Асистенции + Откраднати топки + Направени чадъри + Получени лични нарушения) – ((Направени стрелби – Сполучливи стрелби за 2 точки) + (Направени стрелби – Сполучливи стрелби за 3 точки) + Грешки + Получени чадъри + Извършени лични нарушения)
 </div>
-<script type="text/javascript" src="gs_sortable.js"></script>
+
 <script type="text/javascript">
 <!--
-/*
-var TSort_Data = new Array ('home', 'i', 's', 's', 'i','i','f', 'i','i','f', 'i','i','f', 'i','i', 'i','i', 'i','i', 'i','i', 'i','i', 'i','i');
-tsRegister();
-var TSort_Data = new Array ('away', 'i', 's', 's', 'i','i','f', 'i','i','f', 'i','i','f', 'i','i', 'i','i', 'i','i', 'i','i', 'i','i', 'i','i');
-tsRegister();
-*/
 
+/*
+ <script type="text/javascript" src="gs_sortable.js"></script>
+ 
+var TSort_Data = new Array ('home', 'i', 's', 's', 'i','i','i','i', 'i','i', 'i','i', 'i','i', 'i','i', 'i','i', 'i','i', 'i','i');
+tsRegister();
+var TSort_Data = new Array ('away', 'i', 's', 's', 'i','i','i','i', 'i','i', 'i','i', 'i','i', 'i','i', 'i','i', 'i','i', 'i','i');
+tsRegister();
+
+*/
+function load(){
+	var arr = document.getElementsByName('points');
+    for(var i=0;i<arr.length;i++){
+    	update(arr[i]);
+    }
+}
 
 function update(elt) {
 	/*time_%%id
@@ -82,7 +91,14 @@ function update(elt) {
 	var indexOf = elt.id.indexOf("_");
 	var playerId = elt.id.substring(indexOf + 1);
 	document.getElementById("points_" + playerId).value = (2 * parseInt(document.getElementById("2pm_" + playerId).value) + 3 * parseInt(document.getElementById("3pm_" + playerId).value) + parseInt(document.getElementById("1pm_" + playerId).value));
+    document.getElementById("eff_" + playerId).value = parseInt(document.getElementById("points_" + playerId).value) + parseInt(document.getElementById("2pm_" + playerId).value) + parseInt(document.getElementById("3pm_" + playerId).value) + parseInt(document.getElementById("1pm_" + playerId).value) +
+    parseInt(document.getElementById("or_" + playerId).value) + parseInt(document.getElementById("dr_" + playerId).value) + parseInt(document.getElementById("as_" + playerId).value) +
+    parseInt(document.getElementById("st_" + playerId).value) + parseInt(document.getElementById("bl_" + playerId).value) + parseInt(document.getElementById("fa_" + playerId).value) -
+    parseInt(document.getElementById("2pa_" + playerId).value) - parseInt(document.getElementById("3pa_" + playerId).value) - parseInt(document.getElementById("1pa_" + playerId).value) -
+    parseInt(document.getElementById("to_" + playerId).value) - parseInt(document.getElementById("bla_" + playerId).value) - parseInt(document.getElementById("f_" + playerId).value);
     
+    document.getElementById("points_" + playerId).disabled = true;
+    document.getElementById("eff_" + playerId).disabled = true;
 }
 
 //-->

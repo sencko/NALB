@@ -54,7 +54,8 @@ public class PDFFormatParser {
 
       @Override
       public boolean accept(File dir, String name) {
-        return name.endsWith(".pdf");
+    	 
+        return name.endsWith(".pdf") && (Integer.parseInt(name.split("\\.")[0]) > 132);
       }
     });
     PDFTextStripper stripper = new PDFTextStripper();

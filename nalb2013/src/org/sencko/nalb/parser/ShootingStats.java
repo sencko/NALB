@@ -16,6 +16,14 @@ package org.sencko.nalb.parser;
 
 public class ShootingStats {
   int made;
+  public int getMade() {
+    return made;
+  }
+
+  public int getAttempted() {
+    return attempted;
+  }
+
   int attempted;
 
   public ShootingStats( int parseInt, int parseInt2) {

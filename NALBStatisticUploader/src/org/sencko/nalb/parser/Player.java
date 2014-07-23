@@ -21,7 +21,11 @@ public class Player {
     realName = value;
     String[] date = pValue[0].split("\\.");
     bd = new Date(Integer.parseInt(date[2]) - 1900, Integer.parseInt(date[1]) - 1, Integer.parseInt(date[0]) - 1);
+    if (pValue.length > 1){
     id = Integer.parseInt(pValue[1].trim());
+    } else {
+    	id = realName.hashCode() ^ bd.hashCode();
+    }
   }
 
   public String getName() {

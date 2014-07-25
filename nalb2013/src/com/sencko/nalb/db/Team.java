@@ -1,7 +1,14 @@
 
 package com.sencko.nalb.db;
 
+import com.google.appengine.api.datastore.DatastoreService;
+import com.google.appengine.api.datastore.DatastoreServiceFactory;
 import com.google.appengine.api.datastore.Entity;
+import com.google.appengine.api.datastore.PreparedQuery;
+import com.google.appengine.api.datastore.Query;
+import com.google.appengine.api.datastore.Query.Filter;
+import com.google.appengine.api.datastore.Query.FilterOperator;
+import com.google.appengine.api.datastore.Query.FilterPredicate;
 
 public class Team extends DBEntity {
 
@@ -94,6 +101,21 @@ public class Team extends DBEntity {
   public Team setSite(String site) {
     this.site = site;
     return this;
+  }
+
+  public static Team getTeam(String teamname, String abbreviation) {
+    DatastoreService datastore = DatastoreServiceFactory.getDatastoreService();
+    Filter idFilter = new FilterPredicate(NAME, FilterOperator.EQUAL, teamname);
+    Query q = new Query(Player.class.getSimpleName()).setFilter(idFilter);
+    PreparedQuery pq = datastore.prepare(q);
+    for (Entity en : pq.asIterable()) {
+      return new Team(en);
+    }
+    Team team = new Team();
+    team.setName(teamname);
+    team.setAbbreviation(abbreviation);
+    team.save();
+    return team;
   }
 
   // byte[] image;

@@ -1,13 +1,10 @@
 
 package com.sencko.nalb.db;
 
-import java.lang.reflect.InvocationTargetException;
-
 import com.google.appengine.api.datastore.Blob;
 import com.google.appengine.api.datastore.DatastoreService;
 import com.google.appengine.api.datastore.DatastoreServiceFactory;
 import com.google.appengine.api.datastore.Entity;
-import com.google.appengine.api.datastore.EntityNotFoundException;
 import com.google.appengine.api.datastore.Key;
 import com.google.appengine.tools.development.testing.LocalDatastoreServiceTestConfig;
 import com.google.appengine.tools.development.testing.LocalServiceTestHelper;
@@ -46,14 +43,6 @@ public abstract class DBEntity {
 
   protected abstract Entity constructEntity();
 
-  public byte[] getBinaryProperty(String name) {
-    Blob blob = (Blob) entity.getProperty(name);
-    if (blob != null) {
-      return blob.getBytes();
-    }
-    return null;
-  }
-
   public Key getKey() {
     if (entity == null) {
       save();
@@ -61,7 +50,7 @@ public abstract class DBEntity {
     return entity.getKey();
   }
 
-  protected void save() {
+  public void save() {
     DatastoreService datastore = DatastoreServiceFactory.getDatastoreService();
     datastore.put(constructEntity());
   }

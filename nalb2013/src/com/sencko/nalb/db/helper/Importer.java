@@ -22,6 +22,11 @@ public class Importer {
         last --;
       }
       player.setLastName(names[last]);
+      player.setFirstName(names[0]);
+      if (last == 2){
+        player.setMiddleName(names[1]);
+      }
+
       
       String value = players.getProperty(key);
       String[] pValue = value.split("=");
@@ -29,13 +34,12 @@ public class Importer {
       Date bd = new Date(Integer.parseInt(date[2]) - 1900, Integer.parseInt(date[1]) - 1, Integer.parseInt(date[0]) - 1);
       int id;
       if (pValue.length > 1){
-      id = Integer.parseInt(pValue[1].trim());
+        id = Integer.parseInt(pValue[1].trim());
       } else {
-        id = realName.hashCode() ^ bd.hashCode();
+        // search for player, else 
+        Player.searchForPlayerExact(player.getFirstName(), player.getLastName());
+        id = player.getFirstName().hashCode() ^ player.getLastName().hashCode() ^ bd.hashCode();
       }
-      alias.setAliasKey(key);
-      alias.setAliasValue();
-      alias.setTournament(tournament);
       player.save();
     }
 

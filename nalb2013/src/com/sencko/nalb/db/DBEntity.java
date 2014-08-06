@@ -1,10 +1,13 @@
 
 package com.sencko.nalb.db;
 
+import java.lang.reflect.InvocationTargetException;
+
 import com.google.appengine.api.datastore.Blob;
 import com.google.appengine.api.datastore.DatastoreService;
 import com.google.appengine.api.datastore.DatastoreServiceFactory;
 import com.google.appengine.api.datastore.Entity;
+import com.google.appengine.api.datastore.EntityNotFoundException;
 import com.google.appengine.api.datastore.Key;
 import com.google.appengine.tools.development.testing.LocalDatastoreServiceTestConfig;
 import com.google.appengine.tools.development.testing.LocalServiceTestHelper;
@@ -70,9 +73,7 @@ public abstract class DBEntity {
     Object object = entity.getProperty(key);
     if (object instanceof Key) {
       try {
-        Entity entity = DatastoreServiceFactory.getDatastoreService().get((Key) object);
-        String kind = entity.getKind();
-        return Class.forName(DBEntity.class.getPackage().getName() + "." + kind).getConstructor(Entity.class).newInstance(entity);
+        return createObjectByKey((Key) object);
       } catch (Exception ex) {
         ex.printStackTrace();
         object = null;
@@ -81,6 +82,13 @@ public abstract class DBEntity {
       return ((Blob) object).getBytes();
     }
     return object;
+  }
+
+  public static Object createObjectByKey(Key object) throws EntityNotFoundException, InstantiationException, IllegalAccessException,
+      InvocationTargetException, NoSuchMethodException, ClassNotFoundException {
+    Entity entity = DatastoreServiceFactory.getDatastoreService().get(object);
+    String kind = entity.getKind();
+    return Class.forName(DBEntity.class.getPackage().getName() + "." + kind).getConstructor(Entity.class).newInstance(entity);
   }
 
   public static void main(String[] test) throws Exception {

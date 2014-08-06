@@ -1,7 +1,14 @@
 
 package com.sencko.nalb.db;
 
+import java.util.ArrayList;
+import java.util.List;
+
+import com.google.appengine.api.datastore.DatastoreService;
+import com.google.appengine.api.datastore.DatastoreServiceFactory;
 import com.google.appengine.api.datastore.Entity;
+import com.google.appengine.api.datastore.PreparedQuery;
+import com.google.appengine.api.datastore.Query;
 
 public class Tournament extends DBEntity {
   protected String name;
@@ -92,4 +99,20 @@ public class Tournament extends DBEntity {
     this.schema = schema;
   }
 
+  
+  @Override
+  public String toString() {
+    return String.format("%s %s (%s) %s", name, description, schema, parent);
+  }
+
+  public static List<Tournament> getTournaments() {
+    DatastoreService datastore = DatastoreServiceFactory.getDatastoreService();
+    Query q = new Query(Tournament.class.getSimpleName());
+    PreparedQuery pq = datastore.prepare(q);
+    List<Tournament>  ret = new ArrayList<Tournament>();
+    for (Entity en : pq.asIterable()) {
+      ret.add(new Tournament(en));
+    }
+    return ret;
+  }
 }

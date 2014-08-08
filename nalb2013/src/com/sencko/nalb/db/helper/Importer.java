@@ -4,6 +4,7 @@ package com.sencko.nalb.db.helper;
 import java.io.InputStream;
 import java.util.Date;
 import java.util.Properties;
+import java.util.regex.Pattern;
 
 import com.sencko.nalb.db.Alias;
 import com.sencko.nalb.db.Player;
@@ -12,10 +13,10 @@ import com.sencko.nalb.db.Team;
 import com.sencko.nalb.db.Tournament;
 
 public class Importer {
-
+ static Pattern pat = Pattern.compile(".?name");
   public static void importTeam(Tournament tournament, Team team, Properties players) {
     for (String key : players.stringPropertyNames()) {
-      if ("name".equals(key)) {
+      if (pat.matcher(key).matches()) {
         continue;
       } else {
         Player player = new Player();

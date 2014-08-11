@@ -37,6 +37,7 @@ public class Importer {
         String[] pValue = value.split("=");
         String[] date = pValue[0].split("\\.");
         Date bd = new Date(Integer.parseInt(date[2]) - 1900, Integer.parseInt(date[1]) - 1, Integer.parseInt(date[0]) - 1);
+        player.setDate(bd);
         int id;
         if (pValue.length > 1) {
           id = Integer.parseInt(pValue[1].trim());

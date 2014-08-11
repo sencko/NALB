@@ -167,7 +167,7 @@ public class Player extends DBEntity {
 
   @Override
   public String toString() {
-    return String.format("%d %s %s %s %D", id, firstName, middleName, lastName, date);
+    return String.format("%d %s %s %s %tD", id, firstName, middleName, lastName, date);
   }
 
 }

@@ -2,6 +2,7 @@
 package com.sencko.nalb.db.helper.test;
 
 import java.io.IOException;
+import java.io.InputStream;
 import java.io.InputStreamReader;
 import java.util.List;
 import java.util.Properties;
@@ -23,6 +24,7 @@ import com.sencko.nalb.db.helper.Importer;
 public class ImporterTest {
 
   static LocalServiceTestHelper helper;
+
   @BeforeClass
   public static void setUpBeforeClass() throws Exception {
     LocalDatastoreServiceTestConfig config = new LocalDatastoreServiceTestConfig();
@@ -75,23 +77,31 @@ public class ImporterTest {
       teamProperties.load(new InputStreamReader(ImporterTest.class.getResourceAsStream("properties/regular/" + key + ".properties"), "UTF-8"));
       Importer.importTeam(tournament, team, teamProperties);
     }
-    
-    
+
     List<Tournament> tournaments = Tournament.getTournaments();
-    for (Tournament tour:tournaments){
+    for (Tournament tour : tournaments) {
       System.out.println(tour);
       List<Team> teams = Team.getTeams(tour);
-      
-      for(Team team:teams){
+
+      for (Team team : teams) {
         System.out.print("\t");
         System.out.println(team);
         List<RosterSpot> participants = RosterSpot.getPlayersForTeamInTournament(tour, team);
-        for(RosterSpot spot:participants){
+        for (RosterSpot spot : participants) {
           System.out.print("\t\t");
           System.out.println(spot);
         }
       }
-    
+
+    }
+  }
+
+  @Test
+  public void importGamesRegular() {
+    Tournament tournament = Tournament.getTournaments().get(0);
+    for (int i = 1; i <= 158; i++) {
+      InputStream pdfStream = ImporterTest.class.getResourceAsStream("pdf/" + i + ".pdf");
+      Importer.importGame(tournament, pdfStream);
     }
   }
 

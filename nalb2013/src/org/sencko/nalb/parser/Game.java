@@ -41,14 +41,14 @@ public class Game {
   static String FORMAT = Util.readResource("game.html");
   static String EDIT_FORMAT = Util.readResource("edit_game.html");
 
-  TeamStats homeTeam;
-  TeamStats awayTeam;
-  Calendar date;
+  public TeamStats homeTeam;
+  public TeamStats awayTeam;
+  public Calendar date;
 
-  List<Integer> scoring5minHome = new ArrayList<Integer>();
-  List<Integer> scoring5minAway = new ArrayList<Integer>();
+  public List<Integer> scoring5minHome = new ArrayList<Integer>();
+  public List<Integer> scoring5minAway = new ArrayList<Integer>();
   BufferedReader reader;
-  int gameNo;
+  public int gameNo;
 
   transient String rowCache = null;
   transient Matcher currentMatcher = null;
@@ -151,14 +151,15 @@ public class Game {
   }
 
   public void toHtml(Formatter formatter) {
-    formatter.format(FORMAT, homeTeam.getTeam().getName(), awayTeam.getTeam().getName(), homeTeam.getTeam().getName(), awayTeam.getTeam().getName(), getScoreByPeriods(), homeTeam.getTeam().getName(),
-        getPlayersToHtml(homeTeam.getPlayerStats()), getPlayersToHtml(homeTeam.getTeamTotals(), homeTeam), awayTeam.getTeam().getName(),
-        getPlayersToHtml(awayTeam.getPlayerStats()), getPlayersToHtml(awayTeam.getTeamTotals(), awayTeam));
+    formatter.format(FORMAT, homeTeam.getTeam().getName(), awayTeam.getTeam().getName(), homeTeam.getTeam().getName(), awayTeam.getTeam().getName(),
+        getScoreByPeriods(), homeTeam.getTeam().getName(), getPlayersToHtml(homeTeam.getPlayerStats()),
+        getPlayersToHtml(homeTeam.getTeamTotals(), homeTeam), awayTeam.getTeam().getName(), getPlayersToHtml(awayTeam.getPlayerStats()),
+        getPlayersToHtml(awayTeam.getTeamTotals(), awayTeam));
   }
-  
+
   public void toEditHtml(Formatter formatter) {
-    formatter.format(EDIT_FORMAT, homeTeam.getTeam().getName(), awayTeam.getTeam().getName(), homeTeam.getTeam().getName(), awayTeam.getTeam().getName(), getScoreByPeriods(), homeTeam.getTeam().getName(),
-        getPlayersToEditHtml(homeTeam.getPlayerStats()), awayTeam.getTeam().getName(),
+    formatter.format(EDIT_FORMAT, homeTeam.getTeam().getName(), awayTeam.getTeam().getName(), homeTeam.getTeam().getName(), awayTeam.getTeam()
+        .getName(), getScoreByPeriods(), homeTeam.getTeam().getName(), getPlayersToEditHtml(homeTeam.getPlayerStats()), awayTeam.getTeam().getName(),
         getPlayersToEditHtml(awayTeam.getPlayerStats()));
   }
 

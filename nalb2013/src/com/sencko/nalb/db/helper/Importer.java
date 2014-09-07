@@ -1,10 +1,17 @@
 
 package com.sencko.nalb.db.helper;
 
+import java.io.File;
+import java.io.FileInputStream;
+import java.io.IOException;
 import java.io.InputStream;
 import java.util.Date;
 import java.util.Properties;
 import java.util.regex.Pattern;
+
+import org.apache.pdfbox.util.PDFTextStripper;
+import org.sencko.nalb.parser.Game;
+import org.sencko.nalb.parser.OptimizedCharArrayWriter;
 
 import com.sencko.nalb.db.Alias;
 import com.sencko.nalb.db.Player;
@@ -13,7 +20,8 @@ import com.sencko.nalb.db.Team;
 import com.sencko.nalb.db.Tournament;
 
 public class Importer {
- static Pattern pat = Pattern.compile(".?name");
+  static Pattern pat = Pattern.compile(".?name");
+
   public static void importTeam(Tournament tournament, Team team, Properties players) {
     for (String key : players.stringPropertyNames()) {
       if (pat.matcher(key).matches()) {
@@ -59,8 +67,22 @@ public class Importer {
 
   }
 
-  public static void importGame(Tournament tournament, InputStream pdfEncodedGame) {
+  public static void importGame(Tournament tournament, InputStream pdfEncodedGame) throws Exception {
 
+    PDFTextStripper stripper = new PDFTextStripper();
+    stripper.setSortByPosition(true);
+    OptimizedCharArrayWriter ocaw = new OptimizedCharArrayWriter();
+    Game game = new Game(pdfEncodedGame, ocaw, stripper);
+    com.sencko.nalb.db.Game dbGame = new com.sencko.nalb.db.Game();//com.sencko.nalb.db.Game.getGame(tournament, game.gameNo)
+    Team homeTeam = Team.getTeam(tournament, game.homeTeam.getTeam().getAlias());
+    
+    Team awayTeam = Team.getTeam(tournament, game.awayTeam.getTeam().getAlias());
+    dbGame.setAwayTeam(awayTeam);
+    dbGame.setHomeTeam(homeTeam);
+    dbGame.setTournament(tournament);
+    dbGame.setId(game.gameNo);
+    dbGame.setGameTime(game.date.getTime());
+    
   }
 
   public static void importAliases(Tournament tournament, Properties aliases) {

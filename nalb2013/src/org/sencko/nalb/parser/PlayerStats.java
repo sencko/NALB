@@ -70,20 +70,20 @@ public class PlayerStats {
     foulsAgainst += player.foulsAgainst;
   }
 
-  boolean starting;
-  int number;
-  String name;
-  int playTime;
-  ShootingStats twoPoints, threePoints, freeThrow;
-  int offensiveRebounds;
-  int defensiveRebounds;
-  int assists;
-  int turnovers;
-  int steals;
-  int blocks;
-  int blocksAgainst;
-  int fouls;
-  int foulsAgainst;
+  public boolean starting;
+  public int number;
+  public String name;
+  public int playTime;
+  public ShootingStats twoPoints, threePoints, freeThrow;
+  public int offensiveRebounds;
+  public int defensiveRebounds;
+  public int assists;
+  public int turnovers;
+  public int steals;
+  public int blocks;
+  public int blocksAgainst;
+  public int fouls;
+  public int foulsAgainst;
 
   @Override
   public String toString() {

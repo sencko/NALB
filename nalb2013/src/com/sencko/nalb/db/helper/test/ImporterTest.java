@@ -99,8 +99,8 @@ public class ImporterTest {
   @Test
   public void importGamesRegular() {
     Tournament tournament = Tournament.getTournaments().get(0);
-    for (int i = 1; i <= 158; i++) {
-      InputStream pdfStream = ImporterTest.class.getResourceAsStream("pdf/" + i + ".pdf");
+    for (int i = 1; i <= 132; i++) {
+      InputStream pdfStream = ImporterTest.class.getResourceAsStream("pdf/2013/" + i + ".pdf");
       Importer.importGame(tournament, pdfStream);
     }
   }

@@ -12,9 +12,11 @@ import java.util.regex.Pattern;
 import org.apache.pdfbox.util.PDFTextStripper;
 import org.sencko.nalb.parser.Game;
 import org.sencko.nalb.parser.OptimizedCharArrayWriter;
+import org.sencko.nalb.parser.PlayerStats;
 
 import com.sencko.nalb.db.Alias;
 import com.sencko.nalb.db.Player;
+import com.sencko.nalb.db.PlayerStatistic;
 import com.sencko.nalb.db.RosterSpot;
 import com.sencko.nalb.db.Team;
 import com.sencko.nalb.db.Tournament;
@@ -82,6 +84,13 @@ public class Importer {
     dbGame.setTournament(tournament);
     dbGame.setId(game.gameNo);
     dbGame.setGameTime(game.date.getTime());
+    dbGame.save();
+    
+    for(PlayerStats ps:game.homeTeam.getPlayerStats()){
+     RosterSpot rs = RosterSpot.getRosterSpot(ps.name, homeTeam, tournament);
+     Player player = rs.getPlayer();
+     PlayerStatistic pstat = new PlayerStatistic();
+    }
     
   }
 

@@ -90,6 +90,29 @@ public class Importer {
      RosterSpot rs = RosterSpot.getRosterSpot(ps.name, homeTeam, tournament);
      Player player = rs.getPlayer();
      PlayerStatistic pstat = new PlayerStatistic();
+     pstat.setGame(dbGame);
+     pstat.setTeam(homeTeam);
+     pstat.setPlayer(player);
+     
+     pstat.setAssists(ps.assists);
+     pstat.setBlocks(ps.blocks);
+     pstat.setBlocksAgainst(ps.blocksAgainst);
+    // pstat.setCaptain(isCaptain);
+    // pstat.setCoach(isCoach);
+     pstat.setDefensiveRebounds(ps.defensiveRebounds);
+     pstat.setFouls(ps.fouls);
+     pstat.setFoulsAgainst(ps.foulsAgainst);
+     pstat.setFreeThrow(ps.freeThrow);
+     pstat.setNumber(ps.number);
+     pstat.setPlayTime(ps.playTime);
+     pstat.setStarter(ps.starting);
+     pstat.setSteals(ps.steals);
+     pstat.setThreePoints(ps.threePoints);
+     pstat.setTurnovers(ps.turnovers);
+     pstat.setTwoPoints(ps.twoPoints);
+     pstat.save();
+     
+     
     }
     
   }

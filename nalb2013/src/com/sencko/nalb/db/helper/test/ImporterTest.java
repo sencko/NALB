@@ -97,7 +97,7 @@ public class ImporterTest {
   }
 
   @Test
-  public void importGamesRegular() {
+  public void importGamesRegular() throws Exception {
     Tournament tournament = Tournament.getTournaments().get(0);
     for (int i = 1; i <= 132; i++) {
       InputStream pdfStream = ImporterTest.class.getResourceAsStream("pdf/2013/" + i + ".pdf");
